@@ -48,13 +48,13 @@ a header file for it. First thing would be to generate the header file, by using
 ./CppResourceMaker image.png ImageHeaderFile some_image
 ```
 
-this will generate a header file named **SomeImage.hpp** with resource-name **some_image**, in the same directory
+this will generate a header file named **ImageHeaderFile.hpp** with resource-name **some_image**, in the same directory
 of the program.
     
 Now, this is the code you would use to restore the original file:
 ```
 #include "CppResource.hpp"
-#include "SomeImage.hpp"
+#include "ImageHeaderFile.hpp"
  
 int main(int argc, char** argv)
 {
