@@ -24,7 +24,7 @@ contains the byte array, in this format:
 ```
 struct resource_name_t {
 	const unsigned int size = /**  SIZE  **/;
-	const char data[/**  SIZE  **/] = {
+	const unsigned char data[/**  SIZE  **/] = {
 		/**  BYTES  **/
 	};
 };
