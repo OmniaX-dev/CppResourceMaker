@@ -8,7 +8,7 @@ namespace omnia
 {
 	namespace common
 	{
-		bool CppResource::create(std::string file_path, std::string hpp_file_path, std::string resource_name)
+		bool CppResource::create(std::string file_path, std::string hpp_file_path, std::string resource_name, bool encode_extension)
 		{
 			std::filesystem::path p(file_path);
 			std::string ext = p.extension();
@@ -21,19 +21,29 @@ namespace omnia
 			//get length of file
 			infile.seekg(0, std::ios::end);
 			unsigned int length = infile.tellg();
-			length += ext.length() + 1;
+			if (encode_extension)
+				length += ext.length() + 1;
 			buffer = new byte[length];
 			infile.seekg(0, std::ios::beg);
 			
-			buffer[0] = ext.length();
-			for (unsigned char i = 0; i < ext.length(); i++)
-				buffer[i + 1] = ext[i];
+			if (encode_extension)
+			{
+				buffer[0] = ext.length();
+				for (unsigned char i = 0; i < ext.length(); i++)
+					buffer[i + 1] = ext[i];
+			}
 
 			//read file
-			infile.read(buffer + ext.length() + 1, length);
+			if (encode_extension)
+				infile.read(buffer + ext.length() + 1, length);
+			else
+				infile.read(buffer, length);
+
 			infile.close();
 			
 			CppResource::createCppFile(length, buffer, hpp_file_path, resource_name);
+			if (!encode_extension)
+				std::cout << "Warning: extension_encoding is disabled: the resulting .hpp file cannot be loaded as a file with CppResource::load, it will have to be loaded manually.\n";
 			
 			delete[] buffer;
 		 	return true; //TODO: Error checking
@@ -62,13 +72,13 @@ namespace omnia
 		 	
 		 	str << "struct " << resource_name << "_t {\n";
 		 	str << "\tconst unsigned int size = " << (unsigned int)length << ";\n";
-		 	str << "\tconst char data[" << (unsigned int)length << "] = {\n\t\t";
+		 	str << "\tconst unsigned char data[" << (unsigned int)length << "] = {\n\t\t";
 		 	
 		 	for (unsigned int i = 0; i < length; i++)
 		 	{
 		 		if ((i + 1) % row_length == 0)
 		 			str << "\n\t\t";
-		 		str << (int)buffer[i];
+		 		str << (unsigned byte)buffer[i];
 		 		if (i < length - 1)
 		 			str << ", ";
 		 	}

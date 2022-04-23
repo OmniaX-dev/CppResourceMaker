@@ -12,7 +12,7 @@ namespace omnia
 		class CppResource
 		{
 			public:
-				static bool create(std::string file_path, std::string hpp_file_path, std::string resource_name);
+				static bool create(std::string file_path, std::string hpp_file_path, std::string resource_name, bool encode_extension = true);
 				static bool load(std::string file_path, const char* resource_buffer, unsigned int size);
 				
 			private:
