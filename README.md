@@ -9,11 +9,11 @@ The tool is very simple to use: just open a terminal (or cmd) where the executab
    
 Linux
 ```
-./CppResourceMaker [input_file] [output_file] [resource_name]
+./CppResourceMaker <input_file> <output_file> <resource_name> [options]
 ```
 Windows
 ```
-CppResourceMaker.exe [input_file] [output_file] [resource_name]
+CppResourceMaker.exe <input_file> <output_file> <resource_name> [options]
 ```
 where **[input_file]** is the relative path to the file you want to create the header file from, 
 **[output_file]** is the relative path (without extension) of the *.hpp file to generate, and 
@@ -64,6 +64,11 @@ int main(int argc, char** argv)
 ```
 This would create a file called **restoredImage.png** inside the working directory of the program. Keep in mind
  that this tool is not limited to Image files, and can be used to convert any type of file into a C++ header file.
-   
+
+If a resource file is created using the '**--exclude-extension**' option, the resulting *.hpp file will not contain
+the encoded extension at the beginning of the buffer, instead, the buffer will contain an exact binary copy of the
+original file. Note that in this case, the resource cannot be then loaded by using the omnia::common::CppResource::load
+function, and will instead need to be handled manually using C++ binary file I/O.
+
 This little tool is part of the OmniaFramework library.
 
