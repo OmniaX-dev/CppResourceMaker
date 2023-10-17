@@ -1,3 +1,3 @@
  #!/bin/bash
  
- g++ main.cpp CppResource.cpp -o CppResourceMaker --std=c++17
+ clang++ main.cpp CppResource.cpp -o CppResourceMaker --std=c++17

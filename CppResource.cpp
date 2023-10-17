@@ -78,7 +78,7 @@ namespace omnia
 		 	{
 		 		if ((i + 1) % row_length == 0)
 		 			str << "\n\t\t";
-		 		str << (unsigned byte)buffer[i];
+		 		str << (int)(unsigned char)buffer[i];
 		 		if (i < length - 1)
 		 			str << ", ";
 		 	}
